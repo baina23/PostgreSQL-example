@@ -2,8 +2,10 @@
 
 void exercise(connection *C)
 {
-    string state = "Miami";
+    string state = "FL";
     string color = "Green";
-    query4(C, state, color);
+    //query4(C, state, color);
+    add_state(C, state);
+    add_color(C, color);
     return;
 }

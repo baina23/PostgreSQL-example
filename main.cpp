@@ -39,10 +39,10 @@ int main (int argc, char *argv[])
   //TODO: create PLAYER, TEAM, STATE, and COLOR tables in the ACC_BBALL database
   //      load each table with rows from the provided source txt files
  
-      string sql00, sql01, sql02;
-      string sql10, sql11, sql12;
-      string sql20, sql21, sql22;
-      string sql30, sql31, sql32;
+      string sql00, sql01, sql02, sql03;
+      string sql10, sql11, sql12, sql13;
+      string sql20, sql21, sql22, sql23;
+      string sql30, sql31, sql32, sql33;
       
       sql00 = "DROP TABLE IF EXISTS PLAYER CASCADE;";
       sql01 = "CREATE TABLE PLAYER("  \
@@ -58,6 +58,7 @@ int main (int argc, char *argv[])
       "SPG            FLOAT     NOT NULL," \
       "BPG            FLOAT     NOT NULL);";
       sql02 = "COPY PLAYER FROM '" + path + "/player.txt" + "' CSV DELIMITER E' ';"; 
+      sql03 = "SELECT setval('PLAYER_PLAYER_ID_SEQ', (SELECT MAX(PLAYER_ID) FROM PLAYER));";
 
       sql10 = "DROP TABLE IF EXISTS TEAM CASCADE;";
       sql11 = "CREATE TABLE TEAM("  \
@@ -67,22 +68,22 @@ int main (int argc, char *argv[])
       "COLOR_ID            INT     NOT NULL," \
       "WINS            INT     NOT NULL," \
       "LOSSES            INT     NOT NULL);";
-
       sql12 = "COPY TEAM FROM '" + path + "/team.txt" + "' CSV DELIMITER E' ';"; 
+      sql13 = "SELECT setval('TEAM_TEAM_ID_SEQ', (SELECT MAX(TEAM_ID) FROM TEAM));";
 
       sql20 = "DROP TABLE IF EXISTS STATE CASCADE;";
       sql21 = "CREATE TABLE STATE("  \
       "STATE_ID SERIAL PRIMARY KEY     NOT NULL," \
       "NAME           TEXT    NOT NULL);"; 
-
       sql22 = "COPY STATE FROM '" + path + "/state.txt" + "' CSV DELIMITER E' ';"; 
+      sql23 = "SELECT setval('STATE_STATE_ID_SEQ', (SELECT MAX(STATE_ID) FROM STATE));";
 
       sql30 = "DROP TABLE IF EXISTS COLOR CASCADE;";
       sql31 = "CREATE TABLE COLOR("  \
       "COLOR_ID SERIAL PRIMARY KEY     NOT NULL," \
       "NAME           TEXT    NOT NULL);";
-
       sql32 = "COPY COLOR FROM '" + path + "/color.txt" + "' CSV DELIMITER E' ';"; 
+      sql33 = "SELECT setval('COLOR_COLOR_ID_SEQ', (SELECT MAX(COLOR_ID) FROM COLOR));";
 
       /* Create a transactional object. */
       work W(*C);
@@ -92,18 +93,22 @@ int main (int argc, char *argv[])
       W.exec( sql00 );
       W.exec( sql01 );
       W.exec( sql02 );
+      W.exec( sql03 );
       //cout << "Table PLAYER created successfully" << endl;
       W.exec( sql10 );
       W.exec( sql11 );
       W.exec( sql12 );
+      W.exec( sql13 );
       //cout << "Table TEAM created successfully" << endl;
       W.exec( sql20 );
       W.exec( sql21 );
       W.exec( sql22 );
+      W.exec( sql23 );
       //cout << "Table STATE created successfully" << endl;
       W.exec( sql30 );
       W.exec( sql31 );
       W.exec( sql32 );
+      W.exec( sql33 );
       //cout << "Table COLOR created successfully" << endl;
       W.commit();
 

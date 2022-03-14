@@ -14,7 +14,7 @@ void add_player(connection *C, int team_id, int jersey_num, string first_name, s
      string spg_str = to_string(spg);
      string bpg_str = to_string(bpg);
      sql = "INSERT INTO PLAYER (PLAYER_ID,TEAM_ID,UNIFORM_NUM,FIRST_NAME,LAST_NAME, MPG,PPG,RPG,APG,SPG,BPG) "  \
-      "VALUES ( DEFAULT, " + team_id_str + ',' + jersey_num_str + ',' + first_name + ',' + last_name + ',' + mpg_str +
+      "VALUES ( DEFAULT, " + team_id_str + ',' + jersey_num_str + ", '" + first_name + "', '" + last_name + "', " + mpg_str +
         ',' + ppg_str + ',' + rpg_str + ',' + apg_str + ',' + spg_str + ',' + bpg_str + "); " ;
       work W(*C);
       W.exec( sql );
@@ -32,10 +32,10 @@ void add_team(connection *C, string name, int state_id, int color_id, int wins, 
     string losses_str = to_string(losses);
     
     sql = "INSERT INTO TEAM (TEAM_ID, NAME, STATE_ID, COLOR_ID, WINS, LOSSES) "  \
-    "VALUES ( DEFAULT"  + name + ',' + state_id_str + ',' + color_id_str + ',' + wins_str + ',' + losses_str + "); " ;
+    "VALUES ( DEFAULT, '"  + name + "'," + state_id_str + ',' + color_id_str + ',' + wins_str + ',' + losses_str + "); " ;
     work W(*C);
     W.exec( sql );
-    W.commit();
+    W.commit(); 
     return;
 }
 
@@ -44,7 +44,7 @@ void add_state(connection *C, string name)
 {
     string sql;
     sql = "INSERT INTO STATE (STATE_ID, NAME) "  \
-    "VALUES ( DEFAULT, " + name + "); " ;
+    "VALUES ( DEFAULT, '" + name + "'); " ;
     work W(*C);
     W.exec( sql );
     W.commit();
@@ -56,7 +56,7 @@ void add_color(connection *C, string name)
 {
     string sql;
     sql = "INSERT INTO COLOR (COLOR_ID, NAME) "  \
-    "VALUES ( DEFAULT, " + name + "); " ;
+    "VALUES ( DEFAULT, '" + name + "'); " ;
     work W(*C);
     W.exec( sql );
     W.commit();
