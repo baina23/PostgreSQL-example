@@ -105,8 +105,8 @@ void query1(connection *C,
     if (use_apg){
         if (pre) apg = " AND ";
         else pre = true;
-        string min = to_string(min_ppg);
-        string max = to_string(max_ppg);
+        string min = to_string(min_apg);
+        string max = to_string(max_apg);
         apg += "APG BETWEEN " + min + " AND " + max;
     } 
 
@@ -114,8 +114,8 @@ void query1(connection *C,
     if (use_spg){
         if (pre) spg = " AND ";
         else pre = true;
-        string min = to_string(min_ppg);
-        string max = to_string(max_ppg);
+        string min = to_string(min_spg);
+        string max = to_string(max_spg);
         spg += "SPG BETWEEN " + min + " AND " + max;
     } 
 
@@ -123,8 +123,8 @@ void query1(connection *C,
     if (use_bpg){
         if (pre) bpg = " AND ";
         else pre = true;
-        string min = to_string(min_ppg);
-        string max = to_string(max_ppg);
+        string min = to_string(min_bpg);
+        string max = to_string(max_bpg);
         bpg += "BPG BETWEEN " + min + " AND " + max;
     } 
     
