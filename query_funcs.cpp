@@ -78,7 +78,7 @@ void query1(connection *C,
     if (use_mpg){
         string min = to_string(min_mpg);
         string max = to_string(max_mpg);
-        mpg = "MPG BETWEEN" + min + " AND " + max + " AND ";
+        mpg = "MPG BETWEEN " + min + " AND " + max;
         pre = true;
     } 
 
@@ -88,7 +88,7 @@ void query1(connection *C,
         else pre = true;
         string min = to_string(min_ppg);
         string max = to_string(max_ppg);
-        ppg += "PPG BETWEEN" + min + " AND " + max;
+        ppg += "PPG BETWEEN " + min + " AND " + max;
     } 
 
      string rpg;
@@ -97,7 +97,7 @@ void query1(connection *C,
         else pre = true;
         string min = to_string(min_rpg);
         string max = to_string(max_rpg);
-        rpg += "RPG BETWEEN" + min + " AND " + max;
+        rpg += "RPG BETWEEN " + min + " AND " + max;
     } 
 
      string apg;
@@ -106,7 +106,7 @@ void query1(connection *C,
         else pre = true;
         string min = to_string(min_ppg);
         string max = to_string(max_ppg);
-        apg += "APG BETWEEN" + min + " AND " + max;
+        apg += "APG BETWEEN " + min + " AND " + max;
     } 
 
      string spg;
@@ -115,7 +115,7 @@ void query1(connection *C,
         else pre = true;
         string min = to_string(min_ppg);
         string max = to_string(max_ppg);
-        spg += "SPG BETWEEN" + min + " AND " + max;
+        spg += "SPG BETWEEN " + min + " AND " + max;
     } 
 
      string bpg;
@@ -124,14 +124,14 @@ void query1(connection *C,
         else pre = true;
         string min = to_string(min_ppg);
         string max = to_string(max_ppg);
-        bpg += "BPG BETWEEN" + min + " AND " + max;
+        bpg += "BPG BETWEEN " + min + " AND " + max;
     } 
     
 
     string where = mpg + ppg + rpg + apg + spg + bpg;
     string sql;
     if(pre)
-        sql = "SELECT * FROM PLAYER WHERE " + where ;
+        sql = "SELECT * FROM PLAYER WHERE " + where + ';';
     else
         sql = "SELECT * FROM PLAYER";
 
@@ -146,14 +146,15 @@ void query1(connection *C,
     for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
       cout << c[0].as<int>() << ' ';
       cout << c[1].as<int>() << ' ';
-      cout << c[2].as<string>() << ' ';
+      cout << c[2].as<int>() << ' ';
       cout << c[3].as<string>() << ' ';
-      cout << c[4].as<int>() << ' ';
+      cout << c[4].as<string>() << ' ';
       cout << c[5].as<int>() << ' ';
       cout << c[6].as<int>() << ' ';
       cout << c[7].as<int>() << ' ';
-      cout << c[8].as<float>() << ' ';
-      cout << c[9].as<float>() << endl;
+      cout << c[8].as<int>() << ' ';
+      cout << c[9].as<float>() << ' ';
+      cout << c[10].as<float>() << endl;
     }
     return;
     
@@ -164,7 +165,7 @@ void query2(connection *C, string team_color)
 {
     string sql;
     sql = "SELECT TEAM.NAME FROM TEAM, COLOR WHERE TEAM.COLOR_ID = COLOR.COLOR_ID" \
-    " AND COLOR.NAME = '" + team_color + "'";
+    " AND COLOR.NAME = '" + team_color + "';";
      /* Create a non-transactional object. */
     nontransaction N(*C);
       
@@ -184,7 +185,7 @@ void query3(connection *C, string team_name)
     string sql;
     sql = "SELECT FIRST_NAME, LAST_NAME FROM PLAYER, TEAM " \
     "WHERE PLAYER.TEAM_ID = TEAM.TEAM_ID AND TEAM.NAME = '"+ team_name + "'" +\
-    "ORDER BY PLAYER.PPG DESC";
+    "ORDER BY PLAYER.PPG DESC;";
      /* Create a non-transactional object. */
     nontransaction N(*C);
       
@@ -204,13 +205,13 @@ void query4(connection *C, string team_state, string team_color)
     string sql;
     sql = "SELECT FIRST_NAME, LAST_NAME, UNIFORM_NUM FROM PLAYER, TEAM, STATE, COLOR "\
     "WHERE STATE.STATE_ID = TEAM.STATE_ID AND COLOR.COLOR_ID = TEAM.COLOR_ID AND PLAYER.TEAM_ID = TEAM.TEAM_ID "\
-    "AND STATE.NAME = '"+ team_state + "'"+ " AND COLOR.NAME = '"+ team_color + "'";
+    "AND STATE.NAME = '"+ team_state + "'"+ " AND COLOR.NAME = '"+ team_color + "';";
      /* Create a non-transactional object. */
     nontransaction N(*C);
       
     /* Execute SQL query */
     result R( N.exec( sql ));
-    cout << "FIRST_NAME LAST_NAME UNIFORM_NUM" << endl;
+    cout << "UNIFORM_NUM FIRST_NAME LAST_NAME" << endl;
     for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
       cout << c[0].as<string>() << ' ';
       cout << c[1].as<string>() << ' ';
@@ -224,8 +225,7 @@ void query5(connection *C, int num_wins)
 {
     string num_wins_str = to_string(num_wins);
     string sql = "SELECT FIRST_NAME, LAST_NAME, NAME, WINS FROM PLAYER, TEAM "\
-    "WHERE PLAYER.TEAM_ID = TEAM.TEAM_ID AND TEAM.WINS > "+ num_wins_str;
-    cout << sql << endl;
+    "WHERE PLAYER.TEAM_ID = TEAM.TEAM_ID AND TEAM.WINS > "+ num_wins_str + ';';
 
      /* Create a non-transactional object. */
     nontransaction N(*C);

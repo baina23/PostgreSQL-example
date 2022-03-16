@@ -2,10 +2,13 @@
 
 void exercise(connection *C)
 {
-    string state = "FL";
+    string state = "NC";
     string color = "Green";
     //query4(C, state, color);
     add_state(C, state);
     add_color(C, color);
+    //query1(C, 1, 15, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    query4(C,state,color);
+    //query5(C,10);
     return;
 }
