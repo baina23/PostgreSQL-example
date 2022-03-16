@@ -1,4 +1,5 @@
 #include "query_funcs.h"
+#include <iomanip>
 
 
 void add_player(connection *C, int team_id, int jersey_num, string first_name, string last_name,
@@ -133,7 +134,7 @@ void query1(connection *C,
     if(pre)
         sql = "SELECT * FROM PLAYER WHERE " + where + ';';
     else
-        sql = "SELECT * FROM PLAYER";
+        sql = "SELECT * FROM PLAYER;";
 
      /* Create a non-transactional object. */
     nontransaction N(*C);
@@ -143,6 +144,7 @@ void query1(connection *C,
       
     /* List down all the records */
     cout << "PLAYER_ID TEAM_ID UNIFORM_NUM FIRST_NAME LAST_NAME MPG PPG RPG APG SPG BPG" << endl;
+    cout.setf(ios::fixed);
     for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
       cout << c[0].as<int>() << ' ';
       cout << c[1].as<int>() << ' ';
@@ -153,8 +155,8 @@ void query1(connection *C,
       cout << c[6].as<int>() << ' ';
       cout << c[7].as<int>() << ' ';
       cout << c[8].as<int>() << ' ';
-      cout << c[9].as<float>() << ' ';
-      cout << c[10].as<float>() << endl;
+      cout << setprecision(1) <<c[9].as<float>() << ' ';
+      cout << setprecision(1) <<c[10].as<float>() << endl;
     }
     return;
     
@@ -203,7 +205,7 @@ void query3(connection *C, string team_name)
 void query4(connection *C, string team_state, string team_color)
 {
     string sql;
-    sql = "SELECT FIRST_NAME, LAST_NAME, UNIFORM_NUM FROM PLAYER, TEAM, STATE, COLOR "\
+    sql = "SELECT UNIFORM_NUM, FIRST_NAME, LAST_NAME  FROM PLAYER, TEAM, STATE, COLOR "\
     "WHERE STATE.STATE_ID = TEAM.STATE_ID AND COLOR.COLOR_ID = TEAM.COLOR_ID AND PLAYER.TEAM_ID = TEAM.TEAM_ID "\
     "AND STATE.NAME = '"+ team_state + "'"+ " AND COLOR.NAME = '"+ team_color + "';";
      /* Create a non-transactional object. */
